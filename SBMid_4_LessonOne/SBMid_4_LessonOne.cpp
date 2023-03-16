@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+class Wheel;
+class Engine;
 
 class Vehicle
 {
@@ -33,27 +35,27 @@ public:
 	}
 };
 
-class Wheel
-{
-private:
-	float Diameter;
-
-public:
-	Wheel(float ValueDiameter = 0) : Diameter(ValueDiameter) {}
-
-	float getDiameter() const { return Diameter; }
-};
-
-class Engine
-{
-private:
-	float Power;
-
-public:
-	Engine(float ValuePower = 0) : Power(ValuePower) {}
-
-	float getPower() const { return Power; }
-};
+//class Wheel
+//{
+//private:
+//	float Diameter;
+//
+//public:
+//	Wheel(float ValueDiameter = 0) : Diameter(ValueDiameter) {}
+//
+//	float getDiameter() const { return Diameter; }
+//};
+//
+//class Engine
+//{
+//private:
+//	float Power;
+//
+//public:
+//	Engine(float ValuePower = 0) : Power(ValuePower) {}
+//
+//	float getPower() const { return Power; }
+//};
 
 class RoadVehicle : public Vehicle
 {
@@ -82,12 +84,8 @@ public:
 		BW2 = &BWheel2;
 	}
 
-	std::ostream& print(std::ostream& out) const override
-	{
-			out << "Bicycle Wheels: " << BW1->getDiameter() << " " << BW2->getDiameter() << " Ride height: " << RoadVehicle::getRideHeight() << "\n";
-		return out;
-	}
-
+	std::ostream& print(std::ostream& out) const override;
+	
 	~Bicycle(){}
 };
 
@@ -111,17 +109,48 @@ public:
 		CW3 = &CWheel3;
 		CW4 = &CWheel4;
 	}
+
+	std::ostream& print(std::ostream& out)const override;
 	
-	std::ostream& print(std::ostream& out)const override
-	{
-		out << "Car Engine: " << CEngine->getPower()<<" Wheels: "<< CW1->getDiameter() <<" "<< CW2->getDiameter() <<" "<< CW3->getDiameter() <<" "<< CW4->getDiameter() <<" Ride height: "<< RoadVehicle::getRideHeight() <<"\n";
-		return out;
-	}
-
-	float getPowerEngine() const { return CEngine->getPower(); }
-
+	float getPowerEngine() const; 
 	~Car(){}
 };
+
+class Wheel
+{
+private:
+	float Diameter;
+
+public:
+	Wheel(float ValueDiameter = 0) : Diameter(ValueDiameter) {}
+
+	float getDiameter() const { return Diameter; }
+};
+
+class Engine
+{
+private:
+	float Power;
+
+public:
+	Engine(float ValuePower = 0) : Power(ValuePower) {}
+
+	float getPower() const { return Power; }
+};
+
+std::ostream& Bicycle::print(std::ostream& out) const
+{
+	out << "Bicycle Wheels: " << BW1->getDiameter() << " " << BW2->getDiameter() << " Ride height: " << RoadVehicle::getRideHeight() << "\n";
+	return out;
+}
+
+std::ostream& Car::print(std::ostream& out)const 
+{
+	out << "Car Engine: " << CEngine->getPower() << " Wheels: " << CW1->getDiameter() << " " << CW2->getDiameter() << " " << CW3->getDiameter() << " " << CW4->getDiameter() << " Ride height: " << RoadVehicle::getRideHeight() << "\n";
+	return out;
+}
+
+float Car::getPowerEngine() const { return CEngine->getPower(); }
 
 float getHighestPower(std::vector<Vehicle*>& vec)
 {
@@ -140,8 +169,6 @@ float getHighestPower(std::vector<Vehicle*>& vec)
 	delete Temp;
 	return Power;
 }
-
-
 
 int main()
 {
@@ -163,20 +190,18 @@ int main()
 
 	for (int i = 0; i < v.size(); i++)
 	{
-		std::cout << "v[" << i << "]: "<< *v[i];
+		std::cout << "v[" << i << "]: " << *v[i];
 	}
-	
+
 	std::cout << "The highest power is " << getHighestPower(v) << '\n';
 
-	int i = v.size()-1;
 	
-	while (v.begin() != v.end()) 
+	for (Vehicle* i : v) 
 	{
-		delete v[i];
+		delete i;;
 		v.pop_back();
 		std::cout << "del v[" << v.size() << "]" << "\n";
-		i--;
 	}
-	
+
 }
 
