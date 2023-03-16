@@ -10,7 +10,7 @@ class Vehicle
 {
 public:
 	
-	virtual std::ostream& print(std::ostream& out) const { return out; }
+	virtual std::ostream& print(std::ostream& out) const = 0;
 
 	friend std::ostream& operator<<(std::ostream& out, const Vehicle& vh) { return vh.print(out); }
 
@@ -34,28 +34,6 @@ public:
 		return out;
 	}
 };
-
-//class Wheel
-//{
-//private:
-//	float Diameter;
-//
-//public:
-//	Wheel(float ValueDiameter = 0) : Diameter(ValueDiameter) {}
-//
-//	float getDiameter() const { return Diameter; }
-//};
-//
-//class Engine
-//{
-//private:
-//	float Power;
-//
-//public:
-//	Engine(float ValuePower = 0) : Power(ValuePower) {}
-//
-//	float getPower() const { return Power; }
-//};
 
 class RoadVehicle : public Vehicle
 {
@@ -113,6 +91,7 @@ public:
 	std::ostream& print(std::ostream& out)const override;
 	
 	float getPowerEngine() const; 
+	
 	~Car(){}
 };
 
